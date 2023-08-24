@@ -1,11 +1,11 @@
 package br.com.rafaela.DSComerce.entities;
 
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_user")
@@ -17,7 +17,7 @@ public class User {
     private String name;
     private String email;
     private String phone;
-    private LocalDate birthday;
+    private LocalDate birthDate;
 private String password;
 
 @OneToMany(mappedBy = "client")
@@ -26,12 +26,12 @@ private List<Order> orders = new ArrayList<>();
     public User() {
     }
 
-    public User(Long id, String name, String email, String phone, LocalDate birthday, String password) {
+    public User(Long id, String name, String email, String phone, LocalDate birthDate, String password) {
         Id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.birthday = birthday;
+        this.birthDate = birthDate;
         this.password = password;
     }
 
@@ -67,12 +67,12 @@ private List<Order> orders = new ArrayList<>();
         this.phone = phone;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getPassword() {
@@ -85,5 +85,18 @@ private List<Order> orders = new ArrayList<>();
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(Id, user.Id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(phone, user.phone) && Objects.equals(birthDate, user.birthDate) && Objects.equals(password, user.password) && Objects.equals(orders, user.orders);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(Id, name, email, phone, birthDate, password, orders);
     }
 }

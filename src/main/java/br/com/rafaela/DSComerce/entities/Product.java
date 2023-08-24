@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -16,7 +17,7 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-    private String imagemUrl;
+    private String imgUrl;
 
     @ManyToMany
     @JoinTable(name = "tb_product_category",
@@ -35,7 +36,7 @@ private  Set<OrderItem> items = new HashSet<>();
         this.name = name;
         this.description = description;
         this.price = price;
-        this.imagemUrl = imagemUrl;
+        this.imgUrl = imgUrl;
         this.categories = categories;
     }
 
@@ -59,8 +60,8 @@ private  Set<OrderItem> items = new HashSet<>();
         this.price = price;
     }
 
-    public void setImagemUrl(String imagemUrl) {
-        this.imagemUrl = imagemUrl;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getName() {
@@ -75,8 +76,8 @@ private  Set<OrderItem> items = new HashSet<>();
         return price;
     }
 
-    public String getImagemUrl() {
-        return imagemUrl;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
     public Set<Category> getCategories() {
@@ -91,4 +92,19 @@ private  Set<OrderItem> items = new HashSet<>();
         return items.stream().map(x -> x.getOrder()).toList();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(price, product.price) && Objects.equals(imgUrl, product.imgUrl) && Objects.equals(categories, product.categories) && Objects.equals(items, product.items);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price, imgUrl, categories, items);
+    }
 }
+
+
+
